@@ -15,17 +15,22 @@ class SecondaryListingsPage(Page):
         assert 'secondary-listings' in url, f'Expected "secondary-listings" not in {url}'
 
     def click_next_page(self, *locator):
-        i = self.TOTAL_PAGE_BTN
-        for i in range(1,58):
-            if i != 59:
-                self.wait.until(EC.element_to_be_clickable(self.NEXT_PAGE_BTN),
+        # sleep(3)
+        self.wait.until(EC.visibility_of_element_located(self.TOTAL_PAGE_BTN),
+                        message=f'Could not find {self.TOTAL_PAGE_BTN} locator for {locator}')
+        total_pages_count = self.driver.find_element(*self.TOTAL_PAGE_BTN).text
+
+        for page in range(0,int(total_pages_count)):
+            self.wait.until(EC.element_to_be_clickable(self.NEXT_PAGE_BTN),
                         message=f"Element by {locator} is not clickable"
                         ).click()
 
     def click_prev_page(self, *locator):
-        p = self.PREV_PAGE_BTN
-        for p in range(1,58,-1):
-            if p!= 1:
+        self.wait.until(EC.visibility_of_element_located(self.CURRENT_PAGE_BTN),
+                        message=f'Could not find {self.CURRENT_PAGE_BTN} locator for {locator}')
+        total_pages_count = self.driver.find_element(*self.TOTAL_PAGE_BTN).text
+        current_page_count = self.driver.find_element(*self.CURRENT_PAGE_BTN).text
+        for page in range(int(total_pages_count),int(current_page_count),-1):
                 self.wait.until(EC.element_to_be_clickable(self.PREV_PAGE_BTN),
                                 message=f"Element by {locator} is not clickable"
                                 ).click()
