@@ -1,3 +1,5 @@
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from pages.base_page import Page
 from time import sleep
@@ -7,7 +9,7 @@ class MainPage(Page):
     EMAIL_INPUT = (By.CSS_SELECTOR, '#email-2')
     PASSWORD_FIELD_INPUT = (By.CSS_SELECTOR, '[data-name="Password"]')
     CONTINUE_BTN = (By.CSS_SELECTOR, '[wized="loginButton"]')
-    SECONDARY_LISTINGS_BTN = (By.CSS_SELECTOR, '[href="/secondary-listings"]')
+    SECONDARY_LISTINGS_BTN = (By.CSS_SELECTOR, '[href="/secondary-listings"] [class="menu-button-text"]')
 
     def open_main_page(self):
         self.open('https://soft.reelly.io/')
@@ -25,4 +27,6 @@ class MainPage(Page):
         self.driver.find_element(*self.CONTINUE_BTN).click()
 
     def click_secondary_listings_option(self, *locator):
-        self.driver.find_element(*self.SECONDARY_LISTINGS_BTN).click()
+        self.wait.until(EC.visibility_of_element_located(self.SECONDARY_LISTINGS_BTN),
+                        message=f'Could not find {self.SECONDARY_LISTINGS_BTN} locator for {locator}'
+                        ).click()
