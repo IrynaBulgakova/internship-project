@@ -35,8 +35,8 @@ def browser_init(context):
     # )
 
     options = FirefoxOptions()
-    options.add_argument('headless')
-    options.add_argument('window-size=1920x1080')
+    options.add_argument('--headless')
+    options.add_argument('--window-size=1920x1080')
     service = FirefoxService(GeckoDriverManager().install())
     context.driver = webdriver.Firefox(
         options=options,
