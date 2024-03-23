@@ -6,11 +6,12 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.chrome.options import Options
 
 
 from app.application import Application
 
-    def browser_init(context, scenario_name):'User can open the Secondary deals page and go through the pagination'
+def browser_init(context, scenario_name):
     """
     :param context: Behave context
     """
@@ -44,6 +45,7 @@ from app.application import Application
     ### BROWSERSTACK ###
     bs_user = 'irynabulgakova_GaUo6D'
     bs_key = 'ta1tofEBnUdUszQceLA6'
+
     url = f'http://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
 
     options = Options()
@@ -51,8 +53,8 @@ from app.application import Application
         'os': 'OS X',
         'osVersion': 'Monterey',
         'browserName': 'Firefox',
-        'browserVersion': '123.0'
-        'sessionName':'User can open the Secondary deals page and go through the pagination'
+        'browserVersion': '123.0',
+        'sessionName':"User can open the Secondary deals page and go through the pagination"
     }
     options.set_capability('bstack:options', bstack_options)
     context.driver = webdriver.Remote(command_executor=url,options=options)
@@ -61,6 +63,7 @@ from app.application import Application
     context.driver.implicitly_wait(4)
     context.wait = WebDriverWait(context.driver, 10)
     context.app = Application(context.driver)
+
 
 def before_scenario(context, scenario):
     print('\nStarted scenario: ', scenario.name)
